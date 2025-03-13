@@ -13,11 +13,13 @@ type MovieType = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+
 }
 type GalleryProps = {
   movieType: MovieType[];
   movieList: [];
 }
+
 'use client'
 import { useEffect, useState } from "react";
 import { ACCESS_TOKEN } from "./constants";
@@ -25,7 +27,8 @@ import axios from "axios";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Star, Play } from "lucide-react";
+import { Star, Play, Search } from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -66,30 +69,30 @@ export default function Home() {
     getMovies();
   }, []
   )
-  
-  return (
-       <div className=" ">
-      <Select >
-  <SelectTrigger className="w-[180px]">
-    <SelectValue placeholder="Theme" />
-  </SelectTrigger>
-  <SelectContent  >
-  {
-        movieList.map((movie: MovieType)=>{
-          return(
-            <SelectItem key={movie.id}   value="Genres" >
-              {movie.genre_ids}
-     
-            </SelectItem>
-          )
-        })
-      }
-    
-    
-  </SelectContent>
-</Select>
 
-      <input type="text" placeholder="Search for a movie" className=" p-4 text-lg border rounded-lg" />
+  return (
+    <div className=" ">
+      <Select >
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Genres" />
+        </SelectTrigger>
+        <SelectContent  >
+          {
+            movieList.map((movie: MovieType) => {
+              return (
+                <SelectItem key={movie.id} value="Genres" >
+                  {movie.genre_ids}
+                
+                </SelectItem>
+              )
+            })
+          }
+
+
+        </SelectContent>
+      </Select>
+
+    <Button><Search > </Search> <span><input type="text" placeholder="Search for a movie" className=" p-4 text-lg rounded-lg outline-none"/></span></Button>
       <Carousel>
         <CarouselContent className="p-3 h-full bg-cover flex items-center ">
           {
@@ -99,11 +102,10 @@ export default function Home() {
                   {/* <h1>{movie.title}</h1> */}
                   <div className="relative">
                     <div className="space-y-2 flex flex-col ">
-                      <img className="w-full rounded-lg   " src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}>
-
+                      <img className="w-full rounded-lg   " src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}>
                       </img>
                       <div className="p-(--spacing-5) absolute bottom-4 text-white space-y-2 flex flex-col  ">
-                        <div className="flex w-full justify-between gap-[2px]">
+                        <div className="flex flex-col w-full justify-between gap-[2px]">
                           <div className="flex flex-col" >
                             <p className="text-[14px] not-italic font-normal leading-5">
                               Now playing:
@@ -116,14 +118,16 @@ export default function Home() {
                             </div>
 
                           </div>
-                          <p className="text-[14px] font-normal not-italic leading-5 py-4">
+                          <div className="">
+                          <p className="text-[14px] font-normal not-italic leading-5 py-4 w-[302px]">
                             {movie.overview}
                           </p>
                           <Button>
                             <Play size={15} color="[#FDE047]" fill="#FDE047" /><span>Watch Trailer</span>
 
                           </Button>
-                          <p className="text-white ">Watch Trailer</p>
+                          </div>
+                          {/* <p className="text-white ">Watch Trailer</p> */}
                         </div>
                       </div>
                     </div>
