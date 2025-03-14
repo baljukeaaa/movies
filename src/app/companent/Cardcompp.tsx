@@ -32,7 +32,7 @@ const CardCompp = () => {
     },
   };
   const getMovies = async () => {
-    const movies = await axios.get("https://api.themoviedb.org/3/discover/movie", {
+    const movies = await axios.get("https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1", {
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
       }
@@ -41,7 +41,7 @@ const CardCompp = () => {
     );
     setMoviesList(movies.data.results);
     // const movies = await res.json();
-    // console.log(movies);
+    console.log(movies);
   };
   useEffect(() => {
     getMovies();
@@ -50,6 +50,7 @@ const CardCompp = () => {
     return(
         
         <div className="p-8">
+            <h3 className="text-3xl font-semibold flex ml-20">Up Coming</h3>
         <div className="grid grid-cols-5 items-center justify-items-center justify-self-center w-fit min-h-screen gap-8 sm:p-20 font-[familyname:var(--font-geist-sans)]">
           {movieList.map((movie: MovieType) => {
             return <Card key={movie.id} className=" p-0 gap-0 w-[230px]">
