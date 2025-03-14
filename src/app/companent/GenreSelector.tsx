@@ -19,10 +19,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import axios from 'axios';
 import { ACCESS_TOKEN } from '../constants';
 import { useEffect, useState } from "react";
+type GenreType = {
+  id : number;
+  name: string;
+}
+type Props = {
+  genreId: number;
+  setGenreId: (genreId: number) => void;
+}
 
 
-
-const GenreSelector = () => {
+const GenreSelector = (props: Props) => {
   const [genreList, setGenreList] = useState([])
   
   const [movieList, setMoviesList] = useState([]);
@@ -44,44 +51,35 @@ const GenreSelector = () => {
     getGenreList();
   }, []
   )
- const getMovies = async () => {
-  const movies = await axios.get(`https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${genreId}&page=${page}`, {
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    }
-  }
+//  const getMovies = async () => {
+//   const movies = await axios.get(`https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${genreId}&page=${page}`, {
+//     headers: {
+//       Authorization: `Bearer ${ACCESS_TOKEN}`,
+//     }
+//   }
  
-    // options
-  );
-  setMoviesList(movies.data.results);
-  // const movies = await res.json();
-  // console.log(movies);
-};
-useEffect(() => {
-  getMovies();
-}, []
-);
+//     // options
+//   );
+//   setMoviesList(movies.data.results);
+//   // const movies = await res.json();
+//   // console.log(movies);
+// };
+// useEffect(() => {
+//   getMovies();
+// }, []
+// );
 
 
   return (
     <div>
-      <Select onValueChange={(value) => getMovies(value)}>
+      <Select onValueChange={(value) => props.setGenreId(Number(value))}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Genres" />
         </SelectTrigger>
         <SelectContent  >
-          {
-            genreList.map((genre) => {
-              return (
-                <SelectItem key={genre.id} value={genre.id} >
-                  {genre.name}
-
-                </SelectItem>
-
-              )
-
-            })
-          }
+        {genreList.map((genre: GenreType) => (
+            <SelectItem key={genre.id} value={String(genre.id)}>{genre.name}</SelectItem>
+          ))}
         </SelectContent>
       </Select>
       
